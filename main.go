@@ -1,19 +1,38 @@
 package main
 
 import (
+	"TempBackend/model"
 	"TempBackend/server"
+	"flag"
+	"io/ioutil"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
 )
 
+var (
+	configFilePath = flag.String("config", "etc/config.yaml", "temperature backend config file path")
+)
 
 func main() {
-	srv, err := server.Init()
+	flag.Parse()
+	configData, err := ioutil.ReadFile(*configFilePath)
+	if err != nil {
+		println("read config file failed, err: " + err.Error())
+		os.Exit(1)
+	}
+
+	cfg, err := model.UnmarshalConfig(configData)
+	if err != nil {
+		println("parse config file failed, err: " + err.Error())
+		os.Exit(1)
+	}
+
+	srv, err := server.Init(cfg)
 	if err != nil {
 		println("init failed, err: " + err.Error())
-		return
+		os.Exit(1)
 	}
 
 	c := make(chan os.Signal, 1)
@@ -27,11 +46,12 @@ func main() {
 			if sig == syscall.SIGINT || sig == syscall.SIGTERM || sig == syscall.SIGQUIT {
 				println("got signal, quit, signal: " + sig.String())
 				srv.Close()
-				return
+				break
 			}
 			println("ignore signal: " + sig.String())
 		}
 	}()
+
 	srv.Run()
 	wg.Wait()
 }

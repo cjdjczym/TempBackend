@@ -19,7 +19,7 @@ func (s *Server) PostUserDaily(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, CreateFailureJsonResp(errMsg))
 		return
 	}
-	backend.PostUserDaily(&user)
+	backend.PostUserDaily(&user, s.cfg)
 }
 func (s *Server) GetUserStats(c *gin.Context) {
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get user status")
@@ -30,7 +30,7 @@ func (s *Server) GetUserStats(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, CreateFailureJsonResp(errMsg))
 		return
 	}
-	userStats := backend.GetUserStats(name)
+	userStats := backend.GetUserStats(name, s.cfg)
 	if userStats == nil {
 		c.JSON(http.StatusInternalServerError, CreateFailureJsonResp("internal failure"))
 		return
@@ -47,7 +47,7 @@ func (s *Server) GetManageDaily(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, CreateFailureJsonResp(errMsg))
 		return
 	}
-	manageDaily := backend.GetManageDaily(date)
+	manageDaily := backend.GetManageDaily(date, s.cfg)
 	if manageDaily == nil {
 		c.JSON(http.StatusInternalServerError, CreateFailureJsonResp("internal failure"))
 		return
@@ -64,7 +64,7 @@ func (s *Server) GetManageMoon(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, CreateFailureJsonResp(errMsg))
 		return
 	}
-	manageAll := backend.GetManageMoon(date)
+	manageAll := backend.GetManageMoon(date, s.cfg)
 	if manageAll == nil {
 		c.JSON(http.StatusInternalServerError, CreateFailureJsonResp("internal failure"))
 		return
@@ -74,7 +74,7 @@ func (s *Server) GetManageMoon(c *gin.Context) {
 
 func (s *Server) GetManageAll(c *gin.Context) {
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage all")
-	manageAll := backend.GetManageAll()
+	manageAll := backend.GetManageAll(s.cfg)
 	if manageAll == nil {
 		c.JSON(http.StatusInternalServerError, CreateFailureJsonResp("internal failure"))
 		return

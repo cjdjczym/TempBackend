@@ -1,25 +1,23 @@
 package server
 
 import (
+	"TempBackend/model"
 	"github.com/gin-gonic/gin"
 	"net"
 	"net/http"
 )
 
-const (
-	serverAddr = "127.0.0.1:3305"
-)
-
 type Server struct {
 	engine   *gin.Engine
 	listener net.Listener
+	cfg      *model.Config
 	exitC    chan struct{}
 }
 
-func Init() (*Server, error) {
-	s := &Server{exitC: make(chan struct{})}
+func Init(cfg *model.Config) (*Server, error) {
+	s := &Server{cfg: cfg, exitC: make(chan struct{})}
 	s.engine = gin.New()
-	l, err := net.Listen("tcp", serverAddr)
+	l, err := net.Listen("tcp", cfg.ServerAddr)
 	if err != nil {
 		println("listen tcp failed, err: " + err.Error())
 		return nil, err

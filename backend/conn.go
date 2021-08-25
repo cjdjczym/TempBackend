@@ -7,15 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
-const (
-	user   = "cj"
-	passwd = "010512"
-	dbAddr = "127.0.0.1:3306"
-	dbName = "test"
-)
-
-func connect() *gorm.DB {
-	dsn := user + ":" + passwd + "@tcp(" + dbAddr + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
+func connect(cfg *model.Config) *gorm.DB {
+	dsn := cfg.DB.User + ":" + cfg.DB.PassWd + "@tcp(" + cfg.DB.Addr + ")/" + cfg.DB.Name + "?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		println("connect to mysql failed, err: " + err.Error())
@@ -29,8 +22,8 @@ func connect() *gorm.DB {
 	return db
 }
 
-func PostUserDaily(user *model.UserDaily) {
-	db := connect()
+func PostUserDaily(user *model.UserDaily, cfg *model.Config) {
+	db := connect(cfg)
 	err := db.Create(user).Error
 	if err != nil {
 		println("post user daily failed, err: " + err.Error())
@@ -38,9 +31,9 @@ func PostUserDaily(user *model.UserDaily) {
 	}
 }
 
-func GetUserStats(name string) *model.UserStats {
+func GetUserStats(name string, cfg *model.Config) *model.UserStats {
 	var users []model.UserDaily
-	db := connect()
+	db := connect(cfg)
 	err := db.Where("name = ?", name).Find(&users).Error
 	if err != nil {
 		println("get user stats failed, err: " + err.Error())
@@ -57,9 +50,9 @@ func GetUserStats(name string) *model.UserStats {
 	return userStats
 }
 
-func GetManageDaily(date string) *model.ManageDaily {
+func GetManageDaily(date string, cfg *model.Config) *model.ManageDaily {
 	var users []model.UserDaily
-	db := connect()
+	db := connect(cfg)
 	err := db.Where("date = ?", date).Find(&users).Error
 	if err != nil {
 		println("get manage daily failed, err: " + err.Error())
@@ -77,10 +70,10 @@ func GetManageDaily(date string) *model.ManageDaily {
 		AbnormalCount: fmt.Sprintf("%d", len(abnormalNames)), AbnormalNames: abnormalNames}
 }
 
-func GetManageMoon(date string) *model.ManageAll {
+func GetManageMoon(date string, cfg *model.Config) *model.ManageAll {
 	var users []model.UserDaily
-	db := connect()
-	err := db.Where("date like ?", date + "%").Find(&users).Error
+	db := connect(cfg)
+	err := db.Where("date like ?", date+"%").Find(&users).Error
 	if err != nil {
 		println("get manage moon failed, err: " + err.Error())
 		return nil
@@ -97,9 +90,9 @@ func GetManageMoon(date string) *model.ManageAll {
 		AbnormalCount: fmt.Sprintf("%d", len(abnormals)), Abnormals: abnormals}
 }
 
-func GetManageAll() *model.ManageAll {
+func GetManageAll(cfg *model.Config) *model.ManageAll {
 	var users []model.UserDaily
-	db := connect()
+	db := connect(cfg)
 	err := db.Find(&users).Error
 	if err != nil {
 		println("get manage all failed, err: " + err.Error())
