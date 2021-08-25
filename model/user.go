@@ -2,9 +2,10 @@ package model
 
 // UserDaily 用户每日上传数据
 type UserDaily struct {
+	Id     int    `gorm:"primary_key" json:"id"`
 	Name   string `json:"name"`
-	Date   string `json:"date"`    // yyyy-mm-dd
-	Normal bool   `json:"normal"`  // 今日体温是否正常
+	Date   string `json:"date"`   // yyyy-mm-dd
+	Normal bool   `json:"normal"` // 今日体温是否正常
 	Status Status `json:"status"`
 }
 

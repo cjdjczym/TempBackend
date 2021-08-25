@@ -1,12 +1,13 @@
 package main
 
 import (
-	"../server"
+	"./server"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
 )
+
 
 func main() {
 	srv, err := server.Init()
@@ -14,11 +15,6 @@ func main() {
 		println("init failed, err: " + err.Error())
 		return
 	}
-
-	//var wg sync.WaitGroup
-	//wg.Add(1)
-	//srv.Run()
-	//wg.Wait()
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGPIPE, syscall.SIGUSR1)

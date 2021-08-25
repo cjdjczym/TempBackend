@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	serverAddr = "127.0.0.1:51684"
+	serverAddr = "127.0.0.1:3305"
 )
 
 type Server struct {
