@@ -23,7 +23,7 @@ func (s *Server) PostUserDaily(c *gin.Context) {
 }
 func (s *Server) GetUserStats(c *gin.Context) {
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get user status")
-	name := strings.TrimSpace(c.Param("name"))
+	name := strings.TrimSpace(c.Query("name"))
 	if name == "" {
 		errMsg := "input name is empty"
 		println(errMsg)
@@ -40,7 +40,7 @@ func (s *Server) GetUserStats(c *gin.Context) {
 
 func (s *Server) GetManageDaily(c *gin.Context) {
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage daily")
-	date := strings.TrimSpace(c.Param("date"))
+	date := strings.TrimSpace(c.Query("date"))
 	if date == "" {
 		errMsg := "input date is empty"
 		println(errMsg)
@@ -57,7 +57,7 @@ func (s *Server) GetManageDaily(c *gin.Context) {
 
 func (s *Server) GetManageMoon(c *gin.Context) {
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage all")
-	date := strings.TrimSpace(c.Param("date"))
+	date := strings.TrimSpace(c.Query("date"))
 	if len(strings.Split(date, "-")) != 2 {
 		errMsg := "wrong input date format, input: " + date
 		println(errMsg)
