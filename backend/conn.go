@@ -1,7 +1,7 @@
 package backend
 
 import (
-	"../model"
+	"TempBackend/model"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

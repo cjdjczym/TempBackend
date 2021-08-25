@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./server"
+	"TempBackend/server"
 	"os"
 	"os/signal"
 	"sync"

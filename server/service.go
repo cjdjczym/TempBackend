@@ -1,8 +1,8 @@
 package server
 
 import (
-	"../backend"
-	"../model"
+	"TempBackend/backend"
+	"TempBackend/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"

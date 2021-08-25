@@ -1,4 +1,4 @@
-module temp
+module TempBackend
 
 go 1.16
 
