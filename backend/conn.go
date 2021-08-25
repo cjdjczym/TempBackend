@@ -21,6 +21,11 @@ func connect() *gorm.DB {
 		println("connect to mysql failed, err: " + err.Error())
 		return nil
 	}
+	err = db.Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(&model.UserDaily{})
+	if err != nil {
+		println("db auto migrate failed, err: " + err.Error())
+		return nil
+	}
 	return db
 }
 
