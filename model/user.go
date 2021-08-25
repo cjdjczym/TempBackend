@@ -6,7 +6,7 @@ type UserDaily struct {
 	Name   string `json:"name"`
 	Date   string `json:"date"`   // yyyy-mm-dd
 	Normal bool   `json:"normal"` // 今日体温是否正常
-	Status Status `json:"status"`
+	Status Status `json:"status" gorm:"-"`
 }
 
 type Status struct {
