@@ -59,7 +59,7 @@ func (s *Server) GetManageMoon(c *gin.Context) {
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage all")
 	date := strings.TrimSpace(c.Param("date"))
 	if len(strings.Split(date, "-")) != 2 {
-		errMsg := "wrong input date format"
+		errMsg := "wrong input date format, input: " + date
 		println(errMsg)
 		c.JSON(http.StatusBadRequest, CreateFailureJsonResp(errMsg))
 		return
