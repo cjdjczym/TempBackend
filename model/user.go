@@ -6,10 +6,6 @@ type UserDaily struct {
 	Name   string `json:"name"`
 	Date   string `json:"date"`   // yyyy-mm-dd
 	Normal bool   `json:"normal"` // 今日体温是否正常
-	Status Status `json:"status" gorm:"-"`
-}
-
-type Status struct {
 	Min    string `json:"min"`    // 最低温度
 	Max    string `json:"max"`    // 最高温度
 	Avg    string `json:"avg"`    // 平均温度

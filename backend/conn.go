@@ -77,6 +77,26 @@ func GetManageDaily(date string) *model.ManageDaily {
 		AbnormalCount: fmt.Sprintf("%d", len(abnormalNames)), AbnormalNames: abnormalNames}
 }
 
+func GetManageMoon(date string) *model.ManageAll {
+	var users []model.UserDaily
+	db := connect()
+	err := db.Where("date like ?", date + "%").Find(&users).Error
+	if err != nil {
+		println("get manage moon failed, err: " + err.Error())
+		return nil
+	}
+	var normals, abnormals []model.Single
+	for _, v := range users {
+		if v.Normal {
+			normals = append(normals, model.Single{Name: v.Name, Date: v.Date})
+		} else {
+			abnormals = append(abnormals, model.Single{Name: v.Name, Date: v.Date})
+		}
+	}
+	return &model.ManageAll{NormalCount: fmt.Sprintf("%d", len(normals)), Normals: normals,
+		AbnormalCount: fmt.Sprintf("%d", len(abnormals)), Abnormals: abnormals}
+}
+
 func GetManageAll() *model.ManageAll {
 	var users []model.UserDaily
 	db := connect()

@@ -8,7 +8,7 @@ type ManageDaily struct {
 	AbnormalNames []string `json:"abnormal_names"`
 }
 
-// ManageAll 查询所有的体温异常信息
+// ManageAll 查询一段时间内的（某月/总共）体温异常信息
 type ManageAll struct {
 	NormalCount   string   `json:"normal_count"`
 	Normals       []Single `json:"normals"`

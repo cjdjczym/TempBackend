@@ -10,7 +10,7 @@ import (
 )
 
 func (s *Server) PostUserDaily(c *gin.Context) {
-	println(time.Now().Format("2021-08-25 16:49:05") + " | " + c.Request.Host + " | " + "post user daily")
+	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "post user daily")
 	var user model.UserDaily
 	err := c.BindJSON(&user)
 	if err != nil {
@@ -22,7 +22,7 @@ func (s *Server) PostUserDaily(c *gin.Context) {
 	backend.PostUserDaily(&user)
 }
 func (s *Server) GetUserStats(c *gin.Context) {
-	println(time.Now().Format("2021-08-25 16:49:05") + " | " + c.Request.Host + " | " + "get user status")
+	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get user status")
 	name := strings.TrimSpace(c.Param("name"))
 	if name == "" {
 		errMsg := "input name is empty"
@@ -39,7 +39,7 @@ func (s *Server) GetUserStats(c *gin.Context) {
 }
 
 func (s *Server) GetManageDaily(c *gin.Context) {
-	println(time.Now().Format("2021-08-25 16:49:05") + " | " + c.Request.Host + " | " + "get manage daily")
+	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage daily")
 	date := strings.TrimSpace(c.Param("date"))
 	if date == "" {
 		errMsg := "input date is empty"
@@ -55,8 +55,25 @@ func (s *Server) GetManageDaily(c *gin.Context) {
 	c.JSON(http.StatusOK, CreateSuccessJsonResp(manageDaily))
 }
 
+func (s *Server) GetManageMoon(c *gin.Context) {
+	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage all")
+	date := strings.TrimSpace(c.Param("date"))
+	if len(strings.Split(date, "-")) != 2 {
+		errMsg := "wrong input date format"
+		println(errMsg)
+		c.JSON(http.StatusBadRequest, CreateFailureJsonResp(errMsg))
+		return
+	}
+	manageAll := backend.GetManageMoon(date)
+	if manageAll == nil {
+		c.JSON(http.StatusInternalServerError, CreateFailureJsonResp("internal failure"))
+		return
+	}
+	c.JSON(http.StatusOK, CreateSuccessJsonResp(manageAll))
+}
+
 func (s *Server) GetManageAll(c *gin.Context) {
-	println(time.Now().Format("2021-08-25 16:49:05") + " | " + c.Request.Host + " | " + "get manage all")
+	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage all")
 	manageAll := backend.GetManageAll()
 	if manageAll == nil {
 		c.JSON(http.StatusInternalServerError, CreateFailureJsonResp("internal failure"))

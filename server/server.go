@@ -33,6 +33,7 @@ func Init() (*Server, error) {
 	api.POST("/user/daily", s.PostUserDaily)
 	api.GET("/user/stats", s.GetUserStats)
 	api.GET("/manager/daily", s.GetManageDaily)
+	api.GET("/manager/moon", s.GetManageMoon)
 	api.GET("/manager/all", s.GetManageAll)
 	return s, nil
 }

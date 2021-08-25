@@ -1,11 +1,9 @@
 {
-    "name": "cjdj",
-    "date": "2021-08-25",
-    "normal": true,
-    "status": {
-        "min": "36.15",
-        "max": "38.23",
-        "avg": "37.00",
-        "center": "37.50"
-    }
+  "name": "cjdj",
+  "date": "2021-08-25",
+  "normal": true,
+  "min": "36.15",
+  "max": "38.23",
+  "avg": "37.00",
+  "center": "37.50"
 }
