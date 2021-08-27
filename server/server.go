@@ -1,8 +1,10 @@
 package server
 
 import (
+	"TempBackend/metrics"
 	"TempBackend/model"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net"
 	"net/http"
 )
@@ -15,6 +17,8 @@ type Server struct {
 }
 
 func Init(cfg *model.Config) (*Server, error) {
+	metrics.RegisterProxyMetrics()
+
 	s := &Server{cfg: cfg, exitC: make(chan struct{})}
 	s.engine = gin.New()
 	l, err := net.Listen("tcp", cfg.ServerAddr)
@@ -33,6 +37,8 @@ func Init(cfg *model.Config) (*Server, error) {
 	api.GET("/manager/daily", s.GetManageDaily)
 	api.GET("/manager/moon", s.GetManageMoon)
 	api.GET("/manager/all", s.GetManageAll)
+
+	api.GET("/metrics", gin.WrapF(promhttp.Handler().ServeHTTP))
 	return s, nil
 }
 

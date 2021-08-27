@@ -2,6 +2,7 @@ package server
 
 import (
 	"TempBackend/backend"
+	"TempBackend/metrics"
 	"TempBackend/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 )
 
 func (s *Server) PostUserDaily(c *gin.Context) {
+	metrics.PostUserDailyCounter.Inc()
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "post user daily")
 	var user model.UserDaily
 	err := c.BindJSON(&user)
@@ -22,6 +24,7 @@ func (s *Server) PostUserDaily(c *gin.Context) {
 	backend.PostUserDaily(&user, s.cfg)
 }
 func (s *Server) GetUserStats(c *gin.Context) {
+	metrics.GetUserStatsCounter.Inc()
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get user status")
 	name := strings.TrimSpace(c.Query("name"))
 	if name == "" {
@@ -39,6 +42,7 @@ func (s *Server) GetUserStats(c *gin.Context) {
 }
 
 func (s *Server) GetManageDaily(c *gin.Context) {
+	metrics.GetManageDailyCounter.Inc()
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage daily")
 	date := strings.TrimSpace(c.Query("date"))
 	if date == "" {
@@ -56,6 +60,7 @@ func (s *Server) GetManageDaily(c *gin.Context) {
 }
 
 func (s *Server) GetManageMoon(c *gin.Context) {
+	metrics.GetManageMoonCounter.Inc()
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage all")
 	date := strings.TrimSpace(c.Query("date"))
 	if len(strings.Split(date, "-")) != 2 {
@@ -73,6 +78,7 @@ func (s *Server) GetManageMoon(c *gin.Context) {
 }
 
 func (s *Server) GetManageAll(c *gin.Context) {
+	metrics.GetManageAllCounter.Inc()
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage all")
 	manageAll := backend.GetManageAll(s.cfg)
 	if manageAll == nil {
