@@ -1,5 +1,5 @@
-basePath: '""'
-host: 47.100.236.6
+basePath: '"/api"'
+host: 47.100.236.6:3305
 info:
   contact:
     email: support@swagger.io

@@ -15,8 +15,8 @@
         },
         "version": "1.0"
     },
-    "host": "47.100.236.6",
-    "basePath": "\"\"",
+    "host": "47.100.236.6:3305",
+    "basePath": "\"/api\"",
     "paths": {
         "/api/manager/all": {
             "get": {

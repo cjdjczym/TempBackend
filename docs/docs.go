@@ -127,8 +127,8 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "47.100.236.6",
-	BasePath:    "\"\"",
+	Host:        "47.100.236.6:3305",
+	BasePath:    "\"/api\"",
 	Schemes:     []string{},
 	Title:       "TemperatureBackend API",
 	Description: "author github@cjdjczym.",

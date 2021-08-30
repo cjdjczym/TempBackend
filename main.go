@@ -22,8 +22,8 @@ import (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host 47.100.236.6
-// @BasePath ""
+// @host 47.100.236.6:3305
+// @BasePath "/api"
 func main() {
 	configFilePath := flag.String("config", "etc/config.yaml", "temperature backend config file path")
 	flag.Parse()
