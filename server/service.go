@@ -10,8 +10,14 @@ import (
 	"time"
 )
 
+// @Summary 用户上传体温
+// @Produce json
+// @Success 200 {string} json "{"code": 200,"msg": "success","data": null}"
+// @Router /api/user/daily [post]
 func (s *Server) PostUserDaily(c *gin.Context) {
 	metrics.PostUserDailyCounter.Inc()
+	metrics.UsersGauge.Set(float64(backend.GetUserCount(s.cfg)))
+
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "post user daily")
 	var user model.UserDaily
 	err := c.BindJSON(&user)
@@ -21,8 +27,23 @@ func (s *Server) PostUserDaily(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, CreateFailureJsonResp(errMsg))
 		return
 	}
+
+	if user.Normal {
+		metrics.NormalGauge.Inc()
+		metrics.NormalDailyGauge.Inc()
+	} else {
+		metrics.AbnormalGauge.Inc()
+		metrics.AbnormalDailyGauge.Inc()
+	}
+
 	backend.PostUserDaily(&user, s.cfg)
+	c.JSON(http.StatusOK, CreateSuccessJsonResp(nil))
 }
+
+// @Summary 用户获取自己近期体温情况
+// @Produce json
+// @Success 200 {string} json "{"code": 200,"msg": "success","data": "no_abnormal: true,"daily_stats": ["date": "2021-08-30","normal": true]"}"
+// @Router /api/user/stats [get]
 func (s *Server) GetUserStats(c *gin.Context) {
 	metrics.GetUserStatsCounter.Inc()
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get user status")
@@ -41,6 +62,10 @@ func (s *Server) GetUserStats(c *gin.Context) {
 	c.JSON(http.StatusOK, CreateSuccessJsonResp(userStats))
 }
 
+// @Summary 根据日期查询当天的用户体温信息
+// @Produce json
+// @Success 200 {string} json "{"code": 200,"msg": "success","data": "normal_count: "2","normal_names": ["xiaoming","xiaohong"],"abnormal_count": "1","abnormal_names": ["xiaoli"]}"
+// @Router /api/manager/daily/{date} [get]
 func (s *Server) GetManageDaily(c *gin.Context) {
 	metrics.GetManageDailyCounter.Inc()
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage daily")
@@ -59,6 +84,10 @@ func (s *Server) GetManageDaily(c *gin.Context) {
 	c.JSON(http.StatusOK, CreateSuccessJsonResp(manageDaily))
 }
 
+// @Summary 根据年月查询当月的用户体温信息
+// @Produce json
+// @Success 200 {string} json "{"code": 200,"msg": "success","data": "normal_count: "2","normals": [{"name": "xiaoming","date": "2021-08-19"},{"name": "xiaohong","date": "2021-08-25"}],"abnormal_count": "1","abnormals": [{"name": "xiaoli","date": "2021-08-12"}]}"
+// @Router /api/manager/moon/{date} [get]
 func (s *Server) GetManageMoon(c *gin.Context) {
 	metrics.GetManageMoonCounter.Inc()
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage all")
@@ -77,6 +106,10 @@ func (s *Server) GetManageMoon(c *gin.Context) {
 	c.JSON(http.StatusOK, CreateSuccessJsonResp(manageAll))
 }
 
+// @Summary 查询所有的用户体温信息
+// @Produce json
+// @Success 200 {string} json "{"code": 200,"msg": "success","data": "normal_count: "2","normals": [{"name": "xiaoming","date": "2021-08-19"},{"name": "xiaohong","date": "2021-08-25"}],"abnormal_count": "1","abnormals": [{"name": "xiaoli","date": "2021-08-12"}]}"
+// @Router /api/manager/all [get]
 func (s *Server) GetManageAll(c *gin.Context) {
 	metrics.GetManageAllCounter.Inc()
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "get manage all")

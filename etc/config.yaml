@@ -1,6 +1,6 @@
-server_addr: "127.0.0.1:3305"
+server_addr: ":3305"
 database:
   user: "cj"
   pass_wd: "010512"
   addr: "127.0.0.1:3306"
-  name: "test"
+  name: "temperature"

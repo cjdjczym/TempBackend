@@ -1,0 +1,102 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "author github@cjdjczym.",
+        "title": "TemperatureBackend API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "47.100.236.6",
+    "basePath": "\"\"",
+    "paths": {
+        "/api/manager/all": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询所有的用户体温信息",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200,\"msg\": \"success\",\"data\": \"normal_count: \"2\",\"normals\": [{\"name\": \"xiaoming\",\"date\": \"2021-08-19\"},{\"name\": \"xiaohong\",\"date\": \"2021-08-25\"}],\"abnormal_count\": \"1\",\"abnormals\": [{\"name\": \"xiaoli\",\"date\": \"2021-08-12\"}]}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/manager/daily/{date}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "根据日期查询当天的用户体温信息",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200,\"msg\": \"success\",\"data\": \"normal_count: \"2\",\"normal_names\": [\"xiaoming\",\"xiaohong\"],\"abnormal_count\": \"1\",\"abnormal_names\": [\"xiaoli\"]}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/manager/moon/{date}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "根据年月查询当月的用户体温信息",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200,\"msg\": \"success\",\"data\": \"normal_count: \"2\",\"normals\": [{\"name\": \"xiaoming\",\"date\": \"2021-08-19\"},{\"name\": \"xiaohong\",\"date\": \"2021-08-25\"}],\"abnormal_count\": \"1\",\"abnormals\": [{\"name\": \"xiaoli\",\"date\": \"2021-08-12\"}]}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/daily": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "用户上传体温",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200,\"msg\": \"success\",\"data\": null}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/stats": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "用户获取自己近期体温情况",
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 200,\"msg\": \"success\",\"data\": \"no_abnormal: true,\"daily_stats\": [\"date\": \"2021-08-30\",\"normal\": true]\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

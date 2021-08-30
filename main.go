@@ -10,12 +10,22 @@ import (
 	"sync"
 	"syscall"
 )
+// @title TemperatureBackend API
+// @version 1.0
+// @description author github@cjdjczym.
+// @termsOfService http://swagger.io/terms/
 
-var (
-	configFilePath = flag.String("config", "etc/config.yaml", "temperature backend config file path")
-)
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
 
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host 47.100.236.6
+// @BasePath ""
 func main() {
+	configFilePath := flag.String("config", "etc/config.yaml", "temperature backend config file path")
 	flag.Parse()
 	configData, err := ioutil.ReadFile(*configFilePath)
 	if err != nil {

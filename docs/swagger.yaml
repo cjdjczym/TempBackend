@@ -1,0 +1,74 @@
+basePath: '""'
+host: 47.100.236.6
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: author github@cjdjczym.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: TemperatureBackend API
+  version: "1.0"
+paths:
+  /api/manager/all:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code": 200,"msg": "success","data": "normal_count: "2","normals":
+            [{"name": "xiaoming","date": "2021-08-19"},{"name": "xiaohong","date":
+            "2021-08-25"}],"abnormal_count": "1","abnormals": [{"name": "xiaoli","date":
+            "2021-08-12"}]}'
+          schema:
+            type: string
+      summary: 查询所有的用户体温信息
+  /api/manager/daily/{date}:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code": 200,"msg": "success","data": "normal_count: "2","normal_names":
+            ["xiaoming","xiaohong"],"abnormal_count": "1","abnormal_names": ["xiaoli"]}'
+          schema:
+            type: string
+      summary: 根据日期查询当天的用户体温信息
+  /api/manager/moon/{date}:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code": 200,"msg": "success","data": "normal_count: "2","normals":
+            [{"name": "xiaoming","date": "2021-08-19"},{"name": "xiaohong","date":
+            "2021-08-25"}],"abnormal_count": "1","abnormals": [{"name": "xiaoli","date":
+            "2021-08-12"}]}'
+          schema:
+            type: string
+      summary: 根据年月查询当月的用户体温信息
+  /api/user/daily:
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code": 200,"msg": "success","data": null}'
+          schema:
+            type: string
+      summary: 用户上传体温
+  /api/user/stats:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"code": 200,"msg": "success","data": "no_abnormal: true,"daily_stats":
+            ["date": "2021-08-30","normal": true]"}'
+          schema:
+            type: string
+      summary: 用户获取自己近期体温情况
+swagger: "2.0"

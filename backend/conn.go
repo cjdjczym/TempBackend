@@ -109,3 +109,14 @@ func GetManageAll(cfg *model.Config) *model.ManageAll {
 	return &model.ManageAll{NormalCount: fmt.Sprintf("%d", len(normals)), Normals: normals,
 		AbnormalCount: fmt.Sprintf("%d", len(abnormals)), Abnormals: abnormals}
 }
+
+func GetUserCount(cfg *model.Config) int64 {
+	var count int64
+	db := connect(cfg)
+	err := db.Table("user_dailies").Select("count(distinct(name))").Count(&count).Error
+	if err != nil {
+		println("get user count failed, err: " + err.Error())
+		return 0
+	}
+	return count
+}
