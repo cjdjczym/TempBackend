@@ -3,6 +3,11 @@ package metrics
 import "github.com/prometheus/client_golang/prometheus"
 
 var (
+	AvgTempGauge = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "avg_temp_gauge",
+			Help: "avg temp gauge",
+		})
 	UsersGauge = prometheus.NewGauge(
 		prometheus.GaugeOpts{
 			Name: "users_gauge",
@@ -56,6 +61,7 @@ var (
 )
 
 func RegisterProxyMetrics() {
+	prometheus.MustRegister(AvgTempGauge)
 	prometheus.MustRegister(UsersGauge)
 	prometheus.MustRegister(NormalGauge)
 	prometheus.MustRegister(AbnormalGauge)

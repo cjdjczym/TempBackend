@@ -165,3 +165,14 @@ func GetTodayAbnormal(cfg *model.Config) int64 {
 	}
 	return count
 }
+
+func GetAvgTemp(cfg *model.Config) int64 {
+	var count int64
+	db := connect(cfg)
+	err := db.Table("user_dailies").Select("avg(avg)").Where("date = ?", time.Now().Format("2006-01-02")).Count(&count).Error
+	if err != nil {
+		println("get avg temp failed, err: " + err.Error())
+		return 0
+	}
+	return count
+}

@@ -34,22 +34,31 @@ func (s *Server) PostUserDaily(c *gin.Context) {
 	metrics.UsersGauge.Set(userCount)
 	print("user count: ")
 	println(userCount)
+
 	var allNormal = float64(backend.GetAllNormal(s.cfg))
 	metrics.NormalGauge.Set(allNormal)
 	print("all normal: ")
 	println(allNormal)
+
 	var allAbnormal = float64(backend.GetAllAbnormal(s.cfg))
 	metrics.AbnormalGauge.Set(allAbnormal)
 	print("all abnormal: ")
 	println(allAbnormal)
+
 	var dailyNormal = float64(backend.GetTodayNormal(s.cfg))
 	metrics.NormalDailyGauge.Set(dailyNormal)
 	print("today normal: ")
 	println(dailyNormal)
+
 	var dailyAbnormal = float64(backend.GetTodayAbnormal(s.cfg))
 	metrics.AbnormalDailyGauge.Set(dailyAbnormal)
 	print("today abnormal: ")
 	println(dailyAbnormal)
+
+	var avgTemp = float64(backend.GetAvgTemp(s.cfg))
+	metrics.AbnormalDailyGauge.Set(avgTemp)
+	print("today avg temp: ")
+	println(avgTemp)
 }
 
 // @Summary 用户获取自己近期体温情况
