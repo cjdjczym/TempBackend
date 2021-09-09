@@ -16,7 +16,6 @@ import (
 // @Router /api/user/daily [post]
 func (s *Server) PostUserDaily(c *gin.Context) {
 	metrics.PostUserDailyCounter.Inc()
-	metrics.UsersGauge.Set(float64(backend.GetUserCount(s.cfg)))
 
 	println(time.Now().Format("2006-01-02 15:04:05") + " | " + c.Request.Host + " | " + "post user daily")
 	var user model.UserDaily
@@ -28,16 +27,14 @@ func (s *Server) PostUserDaily(c *gin.Context) {
 		return
 	}
 
-	if user.Normal {
-		metrics.NormalGauge.Inc()
-		metrics.NormalDailyGauge.Inc()
-	} else {
-		metrics.AbnormalGauge.Inc()
-		metrics.AbnormalDailyGauge.Inc()
-	}
-
 	backend.PostUserDaily(&user, s.cfg)
 	c.JSON(http.StatusOK, CreateSuccessJsonResp(nil))
+
+	metrics.UsersGauge.Set(float64(backend.GetUserCount(s.cfg)))
+	metrics.NormalGauge.Set(float64(backend.GetAllNormal(s.cfg)))
+	metrics.AbnormalGauge.Set(float64(backend.GetAllAbnormal(s.cfg)))
+	metrics.NormalDailyGauge.Set(float64(backend.GetTodayNormal(s.cfg)))
+	metrics.AbnormalDailyGauge.Set(float64(backend.GetTodayAbnormal(s.cfg)))
 }
 
 // @Summary 用户获取自己近期体温情况

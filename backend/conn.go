@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"time"
 )
 
 func connect(cfg *model.Config) *gorm.DB {
@@ -116,6 +117,50 @@ func GetUserCount(cfg *model.Config) int64 {
 	err := db.Table("user_dailies").Select("count(distinct(name))").Count(&count).Error
 	if err != nil {
 		println("get user count failed, err: " + err.Error())
+		return 0
+	}
+	return count
+}
+
+func GetAllNormal(cfg *model.Config) int64 {
+	var count int64
+	db := connect(cfg)
+	err := db.Table("user_dailies").Select("count(*)").Where("normal = ?", true).Count(&count).Error
+	if err != nil {
+		println("get all normal failed, err: " + err.Error())
+		return 0
+	}
+	return count
+}
+
+func GetAllAbnormal(cfg *model.Config) int64 {
+	var count int64
+	db := connect(cfg)
+	err := db.Table("user_dailies").Select("count(*)").Where("normal = ?", false).Count(&count).Error
+	if err != nil {
+		println("get all abnormal failed, err: " + err.Error())
+		return 0
+	}
+	return count
+}
+
+func GetTodayNormal(cfg *model.Config) int64 {
+	var count int64
+	db := connect(cfg)
+	err := db.Table("user_dailies").Select("count(*)").Where("normal = ? AND date = ?", true, time.Now().Format("2006-01-02")).Count(&count).Error
+	if err != nil {
+		println("get today normal failed, err: " + err.Error())
+		return 0
+	}
+	return count
+}
+
+func GetTodayAbnormal(cfg *model.Config) int64 {
+	var count int64
+	db := connect(cfg)
+	err := db.Table("user_dailies").Select("count(*)").Where("normal = ? AND date = ?", false, time.Now().Format("2006-01-02")).Count(&count).Error
+	if err != nil {
+		println("get today abnormal failed, err: " + err.Error())
 		return 0
 	}
 	return count

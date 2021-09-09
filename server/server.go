@@ -41,7 +41,6 @@ func Init(cfg *model.Config) (*Server, error) {
 	api.GET("/manager/all", s.GetManageAll)
 
 	api.GET("/metrics", gin.WrapF(promhttp.Handler().ServeHTTP))
-
 	api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return s, nil
 }
